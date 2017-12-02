@@ -4,9 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dialogowe"
+                xmlns:vm="clr-namespace:Dialogowe"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
     <Grid>
-        
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="68,10,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="Automatyczny sklep komputerowy 'Neutron'" 
+                   VerticalAlignment="Top" 
+                   Height="21" 
+                   Width="355"/>        
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="68,112,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="{Binding TekstWiadomosci}" 
+                   VerticalAlignment="Top" 
+                   Height="66" 
+                   Width="355"/>
     </Grid>
 </Window>

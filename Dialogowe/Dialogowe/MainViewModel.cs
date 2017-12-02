@@ -44,7 +44,7 @@ namespace Dialogowe
             //synteza.Speak("Witaj w automatycznym sklepie komputerowym Neutron, jak się nazywasz");
             SpeechSynthesizer synth = new SpeechSynthesizer();
             synth.SetOutputToDefaultAudioDevice();
-            synth.Speak("hujhujhujhujhujhuj");
+            synth.Speak("artur ty pałko");
         }
 
 

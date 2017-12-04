@@ -6,6 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Speech.Synthesis;
+using System.Diagnostics;
+using Dialogowe.BazaDanych;
+using Dialogowe.Kontrola;
+using Dialogowe.Model;
+using System.Collections.ObjectModel;
 
 namespace Dialogowe
 {
@@ -45,8 +50,20 @@ namespace Dialogowe
             SpeechSynthesizer synth = new SpeechSynthesizer();
             synth.SetOutputToDefaultAudioDevice();
             synth.Speak("artur ty pałko");
-        }
 
+            CzytajZBazy czytaj = new CzytajZBazy();
+            DodajDoBazy dodaj = new DodajDoBazy();
+
+            dodaj.dodajProcesor(5, "AMD", 1000, 5);
+            dodaj.dodajProcesor(1, "Intel", 1000, 5);
+            dodaj.dodajProcesor(3, "Intel", 2000, 7);
+
+            ObservableCollection<Sprzet> lista = czytaj.pobierzProcesory();
+            PracaNaListach p = new PracaNaListach();
+            p.CzytajDane(lista);
+
+            //C:\Users\Aztuz\Source\Repos\Dialogowe\Dialogowe\Dialogowe\bin\BazaDanych\Database.mdf 
+        }
 
         // Odświeżanie kontrolek
         public event PropertyChangedEventHandler PropertyChanged;

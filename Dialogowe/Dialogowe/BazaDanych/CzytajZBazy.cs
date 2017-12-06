@@ -11,25 +11,6 @@ namespace Dialogowe.BazaDanych
 {
     class CzytajZBazy
     {
-        #region Pobieranie kolejnego ID
-
-        public int pobierzIDSprzetu()
-        {
-            SqlConnection Connect = new SqlConnection(Polaczenie.connString);
-            SqlCommand czytajnik = new SqlCommand("SELECT COUNT(*) FROM Sprzet", Connect);
-     
-            Connect.Open();
-            SqlDataReader dr = czytajnik.ExecuteReader();
-
-            dr.Read();
-            int id = Convert.ToInt32(dr[0]);
-
-            Connect.Close();
-            return id;
-        }
-
-        #endregion
-
         #region Pobieranie danych
         //Pobiera wszystkie procki
         public ObservableCollection<Sprzet> pobierzProcesory()
@@ -126,6 +107,34 @@ namespace Dialogowe.BazaDanych
 
             return lista;
         }
+
+        public ObservableCollection<Uzytkownik> pobierzUzytkownikow()
+        {
+            ObservableCollection<Uzytkownik> lista = new ObservableCollection<Uzytkownik>();
+
+            SqlConnection Connect = new SqlConnection(Polaczenie.connString);
+            SqlCommand czytajnik = new SqlCommand("SELECT * " +
+                                                  "FROM Klient", Connect);
+
+            Connect.Open();
+            SqlDataReader dr = czytajnik.ExecuteReader();
+
+
+            while (dr.Read())
+            {
+                Uzytkownik s = new Uzytkownik();
+                s.haslo = dr["Haslo"].ToString();
+                s.imie = dr["Imie"].ToString();
+                s.id = Convert.ToInt32(dr["ID"]);
+
+                lista.Add(s);
+            }
+
+            Connect.Close();
+
+            return lista;
+        }
+
         #endregion
 
         //Do testowania jakby cos nie pyklo

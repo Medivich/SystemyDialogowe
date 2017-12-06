@@ -87,6 +87,8 @@
     <Compile Include="BazaDanych\Polaczenie.cs" />
     <Compile Include="BazaDanych\DodajDoBazy.cs" />
     <Compile Include="Kontrola\PracaNaListach.cs" />
+    <Compile Include="Kontrola\RozpoznawanieMowy.cs" />
+    <Compile Include="Kontrola\SyntezaMowy.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -94,7 +96,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\PozycjaZamowienia.cs" />
     <Compile Include="Model\Sprzet.cs" />
+    <Compile Include="Model\Uzytkownik.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

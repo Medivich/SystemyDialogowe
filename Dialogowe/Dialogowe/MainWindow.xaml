@@ -17,13 +17,13 @@
                    Text="Automatyczny sklep komputerowy 'Neutron'" 
                    VerticalAlignment="Top" 
                    Height="21" 
-                   Width="355"/>        
+                   Width="355"/>
         <TextBlock HorizontalAlignment="Left" 
-                   Margin="68,112,0,0" 
+                   Margin="10,36,0,0" 
                    TextWrapping="Wrap" 
                    Text="{Binding TekstWiadomosci}" 
                    VerticalAlignment="Top" 
-                   Height="66" 
-                   Width="355"/>
+                   Height="107" 
+                   Width="497" FontSize="24"/>
     </Grid>
 </Window>

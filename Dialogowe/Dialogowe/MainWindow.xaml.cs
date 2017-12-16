@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dialogowe.VoiceXML;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace Dialogowe
         public MainWindow()
         {
             InitializeComponent();
+            ParserVXML.obiekt.parsuj();
         }
     }
 }

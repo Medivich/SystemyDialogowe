@@ -12,10 +12,12 @@ using Dialogowe.Kontrola;
 using Dialogowe.Model;
 using System.Collections.ObjectModel;
 using Microsoft.Speech.Recognition;
+using System.Speech;
+
 
 namespace Dialogowe {
     class MainViewModel : INotifyPropertyChanged {
-
+        
         private ObservableCollection<Uzytkownik> userzy;
         private DodajDoBazy obiektZapisuDoBazy;
 

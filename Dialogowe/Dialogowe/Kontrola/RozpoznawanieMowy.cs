@@ -10,40 +10,63 @@ namespace Dialogowe.Kontrola
 {
     class RozpoznawanieMowy
     {
-        SpeechRecognitionEngine SRE;        Choices Slowa = new Choices();        bool rozpoznano = false;        string rozpoznaneSlowo = null;        public RozpoznawanieMowy()
-        {
-            SRE = new SpeechRecognitionEngine(
-                new System.Globalization.CultureInfo("pl-PL"));
+        #region Singleton
+        //Atrybuty dla klasy singleton
+        private RozpoznawanieMowy() {
+            SRE = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("pl-PL"));
             SRE.SetInputToDefaultAudioDevice();
-        }        public void dodajSlowa(string slowo)
+        }
+        private static RozpoznawanieMowy instancjaSingleton;
+        public static RozpoznawanieMowy obiekt {
+            get {
+                if (instancjaSingleton == null) {
+                    instancjaSingleton = new RozpoznawanieMowy();
+                }
+                return instancjaSingleton;
+            }
+        }
+        #endregion
+
+        public SpeechRecognitionEngine SRE;
+        Choices Slowa = new Choices();
+
+        public void czyscSlownik() {
+            Slowa = new Choices();//czysc slownik
+            //czysc stara obsluge zdarzen
+            SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => { };
+            SRE.SpeechRecognitionRejected += (object sender, SpeechRecognitionRejectedEventArgs e) => { };
+            SRE.SpeechHypothesized += (object sender, SpeechHypothesizedEventArgs e) => { };
+        }
+
+        public void dodajSlowa(string slowo)
         {
+            //dodajn slowo do slownika
             Slowa.Add(slowo);
         }
 
-        public void dodajSlowa(string[] slowo)
+        public void dodajSlowa(string[] slowa)
         {
-            Slowa.Add(slowo);
-        }        public string rozpoznajZSlownika()
+            //dodajn slowa do slownika
+            Slowa.Add(slowa);
+        }
+
+        public void rozpoznajSlowaZeSlownika()
         {
             GrammarBuilder gramBuild = new GrammarBuilder();
             gramBuild.Append(Slowa);
-            Grammar gramSRE = new Grammar(gramBuild);
-            SRE.LoadGrammar(gramSRE);
-            SRE.SpeechRecognized += new EventHandler
-                <SpeechRecognizedEventArgs>(SRE_SpeechRecognized);
-            SRE.RecognizeAsync(RecognizeMode.Multiple);
+            Grammar gramSRE = new Grammar(gramBuild);
 
-            while(!rozpoznano)
-                Thread.Sleep(5);
-
-            return rozpoznaneSlowo;
+            SRE.LoadGrammar(gramSRE);
+            SRE.RecognizeAsync(RecognizeMode.Multiple);//podobno ta metoda rozpoznaje wiele slow i zwraca kazde oddzielnie, czyli wola wiele eventow recogninzed
         }
 
+        public void rozpoznajSlowoZeSlownika() {
+            GrammarBuilder gramBuild = new GrammarBuilder();
+            gramBuild.Append(Slowa);
+            Grammar gramSRE = new Grammar(gramBuild);
 
-        private void SRE_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-        {
-            rozpoznaneSlowo = e.Result.Text;
-            rozpoznano = true;
+            SRE.LoadGrammar(gramSRE);
+            SRE.RecognizeAsync(RecognizeMode.Single);//podobno ta metoda rozpoznaje jedno slowo
         }
     }
 }

@@ -8,14 +8,24 @@ namespace Dialogowe.Kontrola
 {
     class SyntezaMowy
     {
-        SpeechSynthesizer synth = new SpeechSynthesizer();
-
-        public SyntezaMowy()
-        {
+        #region Singleton
+        //Atrybuty dla klasy singleton
+        private SyntezaMowy() {
             synth = new SpeechSynthesizer();
             synth.SetOutputToDefaultAudioDevice();
         }
+        private static SyntezaMowy instancjaSingleton;
+        public static SyntezaMowy obiekt {
+            get {
+                if (instancjaSingleton == null) {
+                    instancjaSingleton = new SyntezaMowy();
+                }
+                return instancjaSingleton;
+            }
+        }
+        #endregion
 
+        SpeechSynthesizer synth;
         public void Mow(string text)
         { 
             synth.Speak(text);

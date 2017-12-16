@@ -25,5 +25,14 @@
                    VerticalAlignment="Top" 
                    Height="107" 
                    Width="497" FontSize="24"/>
+        <Button Content="Wyślij" HorizontalAlignment="Left" Margin="390,171,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" ToolTip="Wprowadź tekst wypowiedzi"/>
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="10,206,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="{Binding RozpoznanyTekst}" 
+                   VerticalAlignment="Top" 
+                   Height="93" 
+                   Width="455"/>
     </Grid>
 </Window>

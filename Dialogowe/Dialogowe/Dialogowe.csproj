@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Model\PozycjaZamowienia.cs" />
     <Compile Include="Model\Sprzet.cs" />
+    <Compile Include="Model\StanyRozmowy.cs" />
     <Compile Include="Model\Uzytkownik.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -25,7 +25,10 @@ namespace Dialogowe
         public MainWindow()
         {
             InitializeComponent();
-            ParserVXML.obiekt.parsuj();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
+
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace Dialogowe.VoiceXML {
-    class VoiceXML {
+    public class VoiceXML {
 
         //private string _formId;
         //private string _prompt;

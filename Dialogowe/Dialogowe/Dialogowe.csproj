@@ -123,6 +123,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="VoiceXML\LoginNieOk.vxml" />
+    <None Include="VoiceXML\LoginOk.vxml" />
+    <None Include="VoiceXML\NieRozpoznano.vxml" />
+    <None Include="VoiceXML\ZapytajHaslo.vxml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -150,6 +154,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <None Include="VoiceXML\ZapytajLogin.vxml" />
+    <None Include="VoiceXML\HasloNieOk.vxml" />
+    <None Include="VoiceXML\HasloOk.vxml" />
     <None Include="VoiceXML\Powitanie.vxml" />
   </ItemGroup>
   <ItemGroup />

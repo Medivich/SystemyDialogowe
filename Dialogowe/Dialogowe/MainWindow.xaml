@@ -25,7 +25,7 @@
                    VerticalAlignment="Top" 
                    Height="107" 
                    Width="497" FontSize="24"/>
-        <Button Content="Wyślij" HorizontalAlignment="Left" Margin="390,171,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Wyślij" HorizontalAlignment="Left" Margin="390,171,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="10,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" ToolTip="Wprowadź tekst wypowiedzi"/>
         <TextBlock HorizontalAlignment="Left" 
                    Margin="10,206,0,0" 

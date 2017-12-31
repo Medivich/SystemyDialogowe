@@ -7,7 +7,7 @@ using System.Text;
 using System.Xml;
 
 namespace Dialogowe.VoiceXML {
-    class ParserVXML {
+    public class ParserVXML {
         #region Singleton
         //Atrybuty dla klasy singleton
         private ParserVXML() { }
@@ -24,10 +24,10 @@ namespace Dialogowe.VoiceXML {
         private XmlDocument doc;
         
 
-        public VoiceXML parsuj() {
+        public VoiceXML parsuj(string nazwaPliku) {
             doc = new XmlDocument();
             string prompt="", grammar = "", id = "";
-            string path = "../../VoiceXML/Powitanie.vxml";//Path.Combine(Environment.CurrentDirectory, @"VoiceXML\Powitanie.vxml");
+            string path = "../../VoiceXML/"+nazwaPliku;//Path.Combine(Environment.CurrentDirectory, @"VoiceXML\Powitanie.vxml");
             doc.Load(path);
             foreach (XmlNode node in doc.DocumentElement.ChildNodes) {
                 if (node.Name.Equals("form")) {

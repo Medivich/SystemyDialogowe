@@ -33,9 +33,12 @@ namespace Dialogowe.Kontrola
         public void czyscSlownik() {
             Slowa = new Choices();//czysc slownik
             //czysc stara obsluge zdarzen
-            SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => { };
-            SRE.SpeechRecognitionRejected += (object sender, SpeechRecognitionRejectedEventArgs e) => { };
-            SRE.SpeechHypothesized += (object sender, SpeechHypothesizedEventArgs e) => { };
+            SRE.Dispose();
+            SRE = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("pl-PL"));
+            SRE.SetInputToDefaultAudioDevice();
+            //SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => { };
+            //SRE.SpeechRecognitionRejected += (object sender, SpeechRecognitionRejectedEventArgs e) => { };
+            //SRE.SpeechHypothesized += (object sender, SpeechHypothesizedEventArgs e) => { };
         }
 
         public void dodajSlowa(string slowo)

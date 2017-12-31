@@ -126,6 +126,7 @@
     <None Include="VoiceXML\LoginNieOk.vxml" />
     <None Include="VoiceXML\LoginOk.vxml" />
     <None Include="VoiceXML\NieRozpoznano.vxml" />
+    <None Include="VoiceXML\Pozegnanie.vxml" />
     <None Include="VoiceXML\ZapytajHaslo.vxml" />
   </ItemGroup>
   <ItemGroup>

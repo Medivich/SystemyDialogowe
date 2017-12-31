@@ -14,7 +14,7 @@ using Dialogowe.VoiceXML;
 using System.Collections.ObjectModel;
 using Microsoft.Speech.Recognition;
 using System.Speech;
-
+using System.Windows.Threading;
 
 namespace Dialogowe {
     class MainViewModel : INotifyPropertyChanged {
@@ -28,7 +28,6 @@ namespace Dialogowe {
         private SyntezaMowy synteza = SyntezaMowy.obiekt;
         private ParserVXML parserXML = ParserVXML.obiekt;
         #endregion
-
         private VoiceXML.VoiceXML odpowiedzSystemu;
 
         public MainViewModel() {
@@ -109,7 +108,7 @@ namespace Dialogowe {
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
 
-                    //
+                    #region bledny login haslo
                     case StanyRozmowy.BlednyLogin:
                         pobierzNazweUsera();//w tej metodzie nadpisujemy stan rozmowy jak zwroci ona wynik
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;//to bedzie nadpisane jak metoda (nie)rozpozna
@@ -126,7 +125,13 @@ namespace Dialogowe {
                         pobierzHaslo();
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
-                    //
+                    #endregion
+
+
+                    case StanyRozmowy.RozpoznanoHaslo:
+
+                        break;
+
 
                     case StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze://nic nie robimy jak czekamy
                         break;
@@ -136,7 +141,15 @@ namespace Dialogowe {
             }
 
             if (stanRozmowy == StanyRozmowy.Pozegnanie) {
-
+                odpowiedzSystemu = parserXML.parsuj("Pozegnanie.vxml");
+                string nazwa = "";
+                try {
+                    nazwa = uzytkownik.imie;
+                }
+                catch { }
+                Powiedz(odpowiedzSystemu.Prompt + nazwa);
+                System.Windows.Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                    new Action(() => System.Windows.Application.Current.Shutdown()));
             }
             else if (stanRozmowy == StanyRozmowy.BrakOdpowiedzi) {
 
@@ -150,6 +163,7 @@ namespace Dialogowe {
             userzy = new CzytajZBazy().pobierzUzytkownikow();
 
             rozpoznawanieMowy.czyscSlownik();//przed rozpoznawaniem czyscimy slownik
+            rozpoznawanieMowy.dodajSlowa(new string[] { "Wyjdź", "Powtórz" });
             foreach (Uzytkownik user in userzy) {
                 user.imie = user.imie.Replace(" ", string.Empty);
                 user.haslo = user.haslo.Replace(" ", string.Empty);
@@ -160,22 +174,29 @@ namespace Dialogowe {
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {
                 string imie = e.Result.Text;
-
-                foreach (Uzytkownik user in userzy) {
-                    if (string.Compare(user.imie, imie) == 0) {
-                        uzytkownik = user;
-                        stanRozmowy = StanyRozmowy.ZapytanieOHaslo;//ustawienie stanu rozmowy
-                        break;//jak znalazlem to koncze szukanie
+                if (string.Compare(e.Result.Text, "Wyjdź") == 0) {
+                    stanRozmowy = StanyRozmowy.Pozegnanie;
+                }
+                else if (string.Compare(e.Result.Text, "Powtórz") == 0) {
+                    stanRozmowy = StanyRozmowy.ZapytanieOLogin;
+                }else {
+                    foreach (Uzytkownik user in userzy) {
+                        if (string.Compare(user.imie, imie) == 0) {
+                            uzytkownik = user;
+                            stanRozmowy = StanyRozmowy.ZapytanieOHaslo;//ustawienie stanu rozmowy
+                            break;//jak znalazlem to koncze szukanie
+                        }
                     }
-                }
-                if (stanRozmowy != StanyRozmowy.ZapytanieOHaslo) {//ja poprzenida petla nie znalazla usera to znaczy ze go nima
-                    odpowiedzSystemu = parserXML.parsuj("LoginNieOk.vxml");
-                    Powiedz(odpowiedzSystemu.Prompt);
-                    stanRozmowy = StanyRozmowy.BlednyLogin;//ustawienie stanu rozmowy
-                }
-                else {
-                    odpowiedzSystemu = parserXML.parsuj("LoginOk.vxml");
-                    Powiedz(odpowiedzSystemu.Prompt);
+                    if (stanRozmowy != StanyRozmowy.ZapytanieOHaslo) {//ja poprzenida petla nie znalazla usera to znaczy ze go nima
+                        odpowiedzSystemu = parserXML.parsuj("LoginNieOk.vxml");
+                        Powiedz(odpowiedzSystemu.Prompt);
+                        stanRozmowy = StanyRozmowy.BlednyLogin;//ustawienie stanu rozmowy
+                    }
+                    else if (stanRozmowy == StanyRozmowy.ZapytanieOHaslo) {
+                        odpowiedzSystemu = parserXML.parsuj("LoginOk.vxml");
+                        Powiedz(odpowiedzSystemu.Prompt);
+                        stanRozmowy = StanyRozmowy.ZapytanieOHaslo;
+                    }
                 }
             };
 
@@ -185,11 +206,6 @@ namespace Dialogowe {
                 Powiedz(odpowiedzSystemu.Prompt);
                 stanRozmowy = StanyRozmowy.NieRozpoznanyLogin;//ustawienie stanu rozmowy
                 Debug.WriteLine("Nie rozpoznano usera " + e.ToString());
-            };
-
-            //obsluga jak sterownik nie jest pewny co rozpoznal?
-            rozpoznawanieMowy.SRE.SpeechHypothesized += (object sender, SpeechHypothesizedEventArgs e) => {
-                Debug.WriteLine("Hipotetycznie: " + e.ToString());
             };
 
             odpowiedzSystemu = parserXML.parsuj("ZapytajLogin.vxml");
@@ -202,21 +218,35 @@ namespace Dialogowe {
             
 
             rozpoznawanieMowy.czyscSlownik();//przed rozpoznawaniem czyscimy slownik
-            rozpoznawanieMowy.dodajSlowa(uzytkownik.haslo);//czytaj hasla z bazy danych
+            rozpoznawanieMowy.dodajSlowa(new string[]{ "Wyjdź", "Powtórz"});
+            foreach (Uzytkownik user in userzy) {
+                rozpoznawanieMowy.dodajSlowa(user.haslo);
+            }
+            //rozpoznawanieMowy.dodajSlowa(uzytkownik.haslo);//czytaj hasla z bazy danych
 
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {
-                if (string.Compare(uzytkownik.haslo, e.Result.Text) == 0) {
-                    odpowiedzSystemu = parserXML.parsuj("HasloOk.vxml");
-                    Powiedz(odpowiedzSystemu.Prompt);
-                    stanRozmowy = StanyRozmowy.RozpoznanoHaslo;
+
+                if (string.Compare(e.Result.Text, "Wyjdź") == 0) {
+                    stanRozmowy = StanyRozmowy.Pozegnanie;
+                }
+                else if (string.Compare(e.Result.Text, "Powtórz") == 0) {
+                    stanRozmowy = StanyRozmowy.ZapytanieOHaslo;
                 }
                 else {
-                    odpowiedzSystemu = parserXML.parsuj("HasloNieOk.vxml");
-                    Powiedz(odpowiedzSystemu.Prompt);
-                    stanRozmowy = StanyRozmowy.BledneHaslo;
+                    if (string.Compare(uzytkownik.haslo, e.Result.Text) == 0) {
+                        odpowiedzSystemu = parserXML.parsuj("HasloOk.vxml");
+                        Powiedz(odpowiedzSystemu.Prompt);
+                        stanRozmowy = StanyRozmowy.RozpoznanoHaslo;
+                    }
+                    else {
+                        odpowiedzSystemu = parserXML.parsuj("HasloNieOk.vxml");
+                        Powiedz(odpowiedzSystemu.Prompt);
+                        stanRozmowy = StanyRozmowy.BledneHaslo;
 
+                    }
                 }
+                    
             };
 
             //dodanie obsługi jak się nie udało rozpoznać

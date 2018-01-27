@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 
 namespace Dialogowe.Model {
-    enum StanyRozmowy {
+    enum StanyRozmowy
+    {
         OczekiwanieNaRozpoznanieLubSynteze = 0,
         Powitanie,
         ZapytanieOLogin,//pytamy usera o podanie loginu - imienia
@@ -14,8 +15,10 @@ namespace Dialogowe.Model {
         NieRozpoznanyLogin,//sterownik rozpoznal login ale nie ma go w slowniku, ponawiamy pytanie o login
         NieRozpoznaneHaslo,//sterownik rozpoznal haslo ale nie ma go w slowniku, ponawiamy pytanie o haslo
         RozpoznanoHaslo,
-
-
+        WyborTrybu,
+        NoweZamowienie,
+        HistoriaZamowien,
+        OdczytHistorii,
 
         Pozegnanie = 99,
         PrzerwanoRozmowe = 100,

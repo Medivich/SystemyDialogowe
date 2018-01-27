@@ -63,7 +63,7 @@ namespace Dialogowe.BazaDanych
         {
             SqlConnection Connect = new SqlConnection(Polaczenie.connString);
             SqlCommand Command = new SqlCommand(@"Insert Into Zamowienie(FK_KlientID, Koszt) output INSERTED.ID 
-                                                Values(@klientID, @Koszt)", Connect);
+                                                Values(@FK_KlientID, @Koszt)", Connect);
             int koszt = 0;
 
             foreach(PozycjaZamowienia p in lista)

@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Zamowienie.cs" />
     <Compile Include="VoiceXML\ParserVXML.cs" />
     <Compile Include="VoiceXML\VoiceXML.cs" />
     <Page Include="MainWindow.xaml">
@@ -123,11 +124,19 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="VoiceXML\HasloNieOk.vxml" />
+    <None Include="VoiceXML\HasloOk.vxml" />
+    <None Include="VoiceXML\HistoriaZamowien.vxml" />
     <None Include="VoiceXML\LoginNieOk.vxml" />
     <None Include="VoiceXML\LoginOk.vxml" />
     <None Include="VoiceXML\NieRozpoznano.vxml" />
+    <None Include="VoiceXML\NoweZamowienie.vxml" />
+    <None Include="VoiceXML\Powitanie.vxml" />
     <None Include="VoiceXML\Pozegnanie.vxml" />
+    <None Include="VoiceXML\WyborHistoria.vxml" />
+    <None Include="VoiceXML\WyborTrybu.vxml" />
     <None Include="VoiceXML\ZapytajHaslo.vxml" />
+    <None Include="VoiceXML\ZapytajLogin.vxml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -155,10 +164,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
-    <None Include="VoiceXML\ZapytajLogin.vxml" />
-    <None Include="VoiceXML\HasloNieOk.vxml" />
-    <None Include="VoiceXML\HasloOk.vxml" />
-    <None Include="VoiceXML\Powitanie.vxml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

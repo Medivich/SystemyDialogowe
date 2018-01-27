@@ -220,16 +220,22 @@ namespace Dialogowe.BazaDanych
                 {
                     lista[lista.Count - 1].typ = PozycjaZamowienia.typSprzetu.dyskTwardy;
                     lista[lista.Count - 1].sprzet = pobierzDyskTwardy(Convert.ToInt32(dr["IDSprzetu"]));
+                    lista[lista.Count - 1].sprzet.text = pobierzDyskTwardy(Convert.ToInt32(dr["IDSprzetu"])).PobierzOpis();
+                    lista[lista.Count - 1].sprzet.cena = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).cena;
                 }
                 else if (czyProcesor(Convert.ToInt32(dr["IDSprzetu"])))
                 {
                     lista[lista.Count - 1].typ = PozycjaZamowienia.typSprzetu.procesor;
                     lista[lista.Count - 1].sprzet = pobierzProcesor(Convert.ToInt32(dr["IDSprzetu"]));
+                    lista[lista.Count - 1].sprzet.text = pobierzProcesor(Convert.ToInt32(dr["IDSprzetu"])).PobierzOpis();
+                    lista[lista.Count - 1].sprzet.cena = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).cena;
                 }
                 else if (czyRAM(Convert.ToInt32(dr["IDSprzetu"])))
                 {
                     lista[lista.Count - 1].typ = PozycjaZamowienia.typSprzetu.RAM;
                     lista[lista.Count - 1].sprzet = pobierzPamiecRAM(Convert.ToInt32(dr["IDSprzetu"]));
+                    lista[lista.Count - 1].sprzet.text = pobierzPamiecRAM(Convert.ToInt32(dr["IDSprzetu"])).PobierzOpis();
+                    lista[lista.Count - 1].sprzet.cena = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).cena;
                 }
             }
         
@@ -237,19 +243,101 @@ namespace Dialogowe.BazaDanych
             return lista;
         }
 
+        public Sprzet pobierzSprzet(int IDsprzet)
+        {
+            SqlConnection Connect = new SqlConnection(Polaczenie.connString);
+            SqlCommand czytajnik = new SqlCommand("SELECT * " +
+                                                  "FROM Sprzet WHERE IDsprzet = @IDsprzet ", Connect);
+
+            czytajnik.Parameters.AddWithValue("@IDsprzet", IDsprzet);
+
+            Connect.Open();
+            SqlDataReader dr = czytajnik.ExecuteReader();
+
+            dr.Read();
+            Sprzet sprz = new Sprzet
+            {
+                cena = Convert.ToInt32(dr["Cena"]),
+                iloscSztuk = Convert.ToInt32(dr["Magazyn"]),
+                idSprzetu = IDsprzet
+            };
+
+            Connect.Close();
+
+            return sprz;
+        }
+
         public DyskTwardy pobierzDyskTwardy(int IDsprzet)
         {
-            return null;
+            SqlConnection Connect = new SqlConnection(Polaczenie.connString);
+            SqlCommand czytajnik = new SqlCommand("SELECT * " +
+                                                  "FROM DyskTwardy WHERE FK_IDSprzet = @IDsprzet ", Connect);
+
+            czytajnik.Parameters.AddWithValue("@IDsprzet", IDsprzet);
+
+           
+
+            Connect.Open();
+            SqlDataReader dr = czytajnik.ExecuteReader();
+
+            dr.Read();
+            DyskTwardy dysk = new DyskTwardy
+            {
+                pojemnosc = Convert.ToInt32(dr["Pojemnosc"]),
+                idPodzespolu = Convert.ToInt32(dr["ID"]),
+            };
+
+            Connect.Close();
+
+            return dysk;
         }
 
         public Procesor pobierzProcesor(int IDsprzet)
         {
-            return null;
+            SqlConnection Connect = new SqlConnection(Polaczenie.connString);
+            SqlCommand czytajnik = new SqlCommand("SELECT * " +
+                                                  "FROM Procesor WHERE FK_IDSprzet = @IDsprzet ", Connect);
+
+            czytajnik.Parameters.AddWithValue("@IDsprzet", IDsprzet);
+
+            Connect.Open();
+            SqlDataReader dr = czytajnik.ExecuteReader();
+
+            dr.Read();
+            Procesor procek = new Procesor
+            {
+                idPodzespolu = Convert.ToInt32(dr["ID"]),
+                producent = dr["Producent"].ToString(),
+                liczbaRdzeni = Convert.ToInt32(dr["LiczbaRdzeni"])
+            };
+
+            Connect.Close();
+
+            return procek;
         }
 
         public PamiecRam pobierzPamiecRAM(int IDsprzet)
         {
-            return null;
+            SqlConnection Connect = new SqlConnection(Polaczenie.connString);
+            SqlCommand czytajnik = new SqlCommand("SELECT * " +
+                                                  "FROM PamiecRam WHERE FK_IDSprzet = @IDsprzet ", Connect);
+
+            czytajnik.Parameters.AddWithValue("@IDsprzet", IDsprzet);
+
+            Connect.Open();
+            SqlDataReader dr = czytajnik.ExecuteReader();
+
+            dr.Read();
+            PamiecRam ram = new PamiecRam
+            {
+                idPodzespolu = Convert.ToInt32(dr["ID"]),
+                pojemnosc = Convert.ToInt32(dr["Pojemnosc"]),
+                taktowanie = Convert.ToInt32(dr["Taktowanie"])
+            };
+
+            Connect.Close();
+
+            return ram;
         }
 
         public Boolean czyDysk(int id)

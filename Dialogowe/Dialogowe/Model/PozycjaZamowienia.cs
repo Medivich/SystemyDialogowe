@@ -15,10 +15,10 @@ namespace Dialogowe.Model
             RAM
         }
 
-        public Sprzet sprzet;
-        public int liczba;
-        public int id;
-        public typSprzetu typ;
+        public Sprzet sprzet { get; set; }
+        public int liczba { get; set; }
+        public int id { get; set; }
+        public typSprzetu typ { get; set; }
 
         public void wypisz()
         {

@@ -15,10 +15,21 @@ using System.Collections.ObjectModel;
 using Microsoft.Speech.Recognition;
 using System.Speech;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace Dialogowe {
     class MainViewModel : INotifyPropertyChanged {
-        
+
+
+        /*
+         * Problemy
+         * odczytHistorii - czyta jedno zamiast jeden itd. (jak i oczekuje), ale dwa to dwa xD 
+         * 
+         * 
+         */
+
+
+
         private ObservableCollection<Uzytkownik> userzy;
         private DodajDoBazy obiektZapisuDoBazy;
 
@@ -164,41 +175,42 @@ namespace Dialogowe {
                         stanRozmowy = StanyRozmowy.ZapytanieOLogin;
                         break;
                     case StanyRozmowy.ZapytanieOLogin://zapytanie o login
-                        pobierzNazweUsera();//w tej metodzie nadpisujemy stan rozmowy jak zwroci ona wynik
+                        PobierzNazweUsera();//w tej metodzie nadpisujemy stan rozmowy jak zwroci ona wynik
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;//to bedzie nadpisane jak metoda (nie)rozpozna
                         break;
                     case StanyRozmowy.ZapytanieOHaslo://pytamy o haslo
-                        pobierzHaslo();
+                        PobierzHaslo();
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
 
                     #region bledny login haslo
                     case StanyRozmowy.BlednyLogin:
-                        pobierzNazweUsera();//w tej metodzie nadpisujemy stan rozmowy jak zwroci ona wynik
+                        PobierzNazweUsera();//w tej metodzie nadpisujemy stan rozmowy jak zwroci ona wynik
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;//to bedzie nadpisane jak metoda (nie)rozpozna
                         break;
                     case StanyRozmowy.BledneHaslo:
-                        pobierzHaslo();
+                        PobierzHaslo();
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
                     case StanyRozmowy.NieRozpoznanyLogin:
-                        pobierzNazweUsera();//w tej metodzie nadpisujemy stan rozmowy jak zwroci ona wynik
+                        PobierzNazweUsera();//w tej metodzie nadpisujemy stan rozmowy jak zwroci ona wynik
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;//to bedzie nadpisane jak metoda (nie)rozpozna
                         break;
                     case StanyRozmowy.NieRozpoznaneHaslo:
-                        pobierzHaslo();
+                        PobierzHaslo();
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
                     #endregion
 
                     case StanyRozmowy.WyborTrybu:
-                        wyborTrybu((int) StanyRozmowy.WyborTrybu);
+                        WyborTrybu((int) StanyRozmowy.WyborTrybu);
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
                     case StanyRozmowy.HistoriaZamowien:
-                        odczytHistorii((int)StanyRozmowy.HistoriaZamowien);
+                        OdczytHistorii((int)StanyRozmowy.HistoriaZamowien);
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
+
 
                     case StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze://nic nie robimy jak czekamy
                         Thread.Sleep(10);
@@ -227,7 +239,7 @@ namespace Dialogowe {
             }
         }
 
-        private void pobierzNazweUsera() {
+        private void PobierzNazweUsera() {
             rozpoznawanieMowy.czyscSlownik();//przed rozpoznawaniem czyscimy slownik
             rozpoznawanieMowy.dodajSlowa(new string[] { "Wyjdź", "Powtórz" });
 
@@ -283,7 +295,7 @@ namespace Dialogowe {
             rozpoznawanieMowy.rozpoznajSlowoZeSlownika();//start metody rozpoznawania jednego słowa ze słownika
         }
 
-        private void pobierzHaslo() {
+        private void PobierzHaslo() {
             rozpoznawanieMowy.czyscSlownik();//przed rozpoznawaniem czyscimy slownik
             rozpoznawanieMowy.dodajSlowa(new string[]{ "Wyjdź", "Powtórz"});
             foreach (Uzytkownik user in userzy) {
@@ -332,7 +344,7 @@ namespace Dialogowe {
 
         }
 
-        private void wyborTrybu(int ja)
+        private void WyborTrybu(int ja)
         {
             Debug.WriteLine("Wybor trybu");
             rozpoznawanieMowy.czyscSlownik();//przed rozpoznawaniem czyscimy slownik
@@ -369,26 +381,30 @@ namespace Dialogowe {
                 }
             };
 
+            //dodanie obsługi jak się nie udało rozpoznać usera
+            rozpoznawanieMowy.SRE.SpeechRecognitionRejected += (object sender, SpeechRecognitionRejectedEventArgs e) => {
+                odpowiedzSystemu = parserXML.parsuj("NieRozpoznano.vxml");
+                Powiedz(odpowiedzSystemu.Prompt);
+                stanRozmowy = (StanyRozmowy) ja;
+            };
 
             odpowiedzSystemu = parserXML.parsuj("WyborTrybu.vxml");
             Powiedz(odpowiedzSystemu.Prompt);
             rozpoznawanieMowy.rozpoznajSlowoZeSlownika();//rozpoznaj slowo
         }
 
-        private void odczytHistorii(int ja)
+        private void OdczytHistorii(int ja)
         {
             rozpoznawanieMowy.czyscSlownik();//przed rozpoznawaniem czyscimy slownik
             rozpoznawanieMowy.dodajSlowa(new string[] { "Wyjdź", "Powtórz" });
 
             int liczbaZamowien = new CzytajZBazy().pobierzLiczbeZamowien(uzytkownik.imie);
-            Debug.WriteLine("Widze " + liczbaZamowien + " zamowienia");
+
             for (int i = 1; i <= liczbaZamowien; i++)
                 rozpoznawanieMowy.dodajSlowa(i + ""); //czyta jedno zamiast 1, lel
 
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {
-
-                Debug.WriteLine("Rozpoznalem " + e.Result.Text);
 
                 if (string.Compare(e.Result.Text, "Wyjdź") == 0)
                 {
@@ -404,24 +420,35 @@ namespace Dialogowe {
                         if (string.Compare(i.ToString(), e.Result.Text) == 0)
                         {
                             odpowiedzSystemu = parserXML.parsuj("WyborHistoria.vxml");
-                            Powiedz(odpowiedzSystemu.Prompt + i);
+                            Powiedz(odpowiedzSystemu.Prompt + " " + i);
                             Powiedz("Skład zamówienia:");
                             ObservableCollection<Zamowienie> lista = new ObservableCollection<Zamowienie>();
                             lista = new CzytajZBazy().pobierzZamowienia(uzytkownik.imie);
+                            ObservableCollection<PozycjaZamowienia> pom = new ObservableCollection<PozycjaZamowienia>();
 
-                            for (int j = 0; j < lista.Count; j++)
-                            {
-                                Debug.WriteLine("Czytam liste: " + j);
-                                lista[j].czytajListe();
-                            }
+                            foreach (PozycjaZamowienia poz in lista[i - 1].lista)
+                                pom.Add(poz);
 
-                            
+                            ListaZamowien = pom;
+                            Historia = Visibility.Visible;
+
+                            foreach (PozycjaZamowienia poz in lista[i - 1].lista)
+                                Powiedz("Zamówiłeś: " + poz.typ + " o parametrach " + poz.sprzet.text);
+
+                            Historia = Visibility.Hidden;
                             stanRozmowy = StanyRozmowy.WyborTrybu;
                         }
                     }
             };
 
-            Powiedz("Obecnie posiadasz " + new CzytajZBazy().pobierzLiczbeZamowien(uzytkownik.imie) + " Ktore zamowienie cie interesuje");
+            //dodanie obsługi jak się nie udało rozpoznać usera
+            rozpoznawanieMowy.SRE.SpeechRecognitionRejected += (object sender, SpeechRecognitionRejectedEventArgs e) => {
+                odpowiedzSystemu = parserXML.parsuj("NieRozpoznano.vxml");
+                Powiedz(odpowiedzSystemu.Prompt);
+                stanRozmowy = (StanyRozmowy)ja;
+            };
+
+            Powiedz("Obecnie posiadasz " + new CzytajZBazy().pobierzLiczbeZamowien(uzytkownik.imie) + ". Ktore zamowienie cie interesuje");
 
             rozpoznawanieMowy.rozpoznajSlowoZeSlownika();//rozpoznaj slowo
         }
@@ -438,6 +465,38 @@ namespace Dialogowe {
             if (PropertyChanged != null)
                 foreach (string up in update)
                     PropertyChanged(this, new PropertyChangedEventArgs(up));
+        }
+
+
+        public Visibility historia = Visibility.Hidden;
+
+        public Visibility Historia
+        {
+            get
+            {
+                return this.historia;
+            }
+            set
+            {
+                this.historia = value;
+                OnPropertyChanged("Historia");
+            }
+        }
+
+
+        public ObservableCollection<PozycjaZamowienia> listaZamowien = new ObservableCollection<PozycjaZamowienia>();
+
+        public ObservableCollection<PozycjaZamowienia> ListaZamowien
+        {
+            get
+            {
+                return this.listaZamowien;
+            }
+            set
+            {
+                this.listaZamowien = value;
+                OnPropertyChanged("ListaZamowien");
+            }
         }
     }
 }

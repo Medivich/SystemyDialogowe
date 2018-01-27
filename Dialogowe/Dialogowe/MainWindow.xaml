@@ -6,29 +6,64 @@
         xmlns:local="clr-namespace:Dialogowe"
                 xmlns:vm="clr-namespace:Dialogowe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="705">
+        Title="Automatyczny sklep komputerowy 'Neutron'" Height="700" Width="705">
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
     <Grid>
         <TextBlock HorizontalAlignment="Left" 
-                   Margin="68,10,0,0" 
-                   TextWrapping="Wrap" 
-                   Text="Automatyczny sklep komputerowy 'Neutron'" 
-                   VerticalAlignment="Top" 
-                   Height="21" 
-                   Width="355"/>
-        <TextBlock HorizontalAlignment="Left" 
-                   Margin="10,36,0,0" 
+                   Margin="10,10,0,0" 
                    TextWrapping="Wrap" 
                    Text="{Binding TekstWiadomosci}" 
                    VerticalAlignment="Top" 
-                   Height="134" 
-                   Width="677" FontSize="24"/>
-        <Button Content="Wyślij" HorizontalAlignment="Left" Margin="390,418,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
-        <TextBox HorizontalAlignment="Left" Height="24" Margin="10,414,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="364" ToolTip="Wprowadź tekst wypowiedzi"/>
+                   Height="211" 
+                   Width="497" FontSize="24"/>
+
+        <ListView Margin="10,101,28,215" Name="Issues" Background="#FF7AC3DE" ItemsSource="{Binding ListaZamowien}" Visibility="{Binding Historia}">
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}" >
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Liczba Sztuk" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding liczba}" FontSize="13" Foreground="Black" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Typ" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding typ}" FontSize="13" Foreground="Black" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Cena" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding sprzet.cena}" FontSize="13" Foreground="Black" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Opis" Width="400">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding sprzet.text}" FontSize="13" Foreground="Black" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Content="Wyślij" HorizontalAlignment="Left" Margin="390,500,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
+        <TextBox HorizontalAlignment="Left" Height="24" Margin="10,496,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="364" ToolTip="Wprowadź tekst wypowiedzi"/>
         <TextBlock HorizontalAlignment="Left" 
-                   Margin="10,452,0,0" 
+                   Margin="10,534,0,0" 
                    TextWrapping="Wrap" 
                    Text="{Binding RozpoznanyTekst}" 
                    VerticalAlignment="Top" 

@@ -13,6 +13,7 @@ namespace Dialogowe.Model
         public int idSprzetu { get; set; }
         public int idPodzespolu { get; set; }
         public string text { get; set; }
+        public int numerNaLiscie { get; set; }
 
         public virtual void Czytaj()
         {

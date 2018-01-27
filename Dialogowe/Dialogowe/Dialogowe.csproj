@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Kontrola\Przycisk.cs" />
     <Compile Include="Model\Zamowienie.cs" />
     <Compile Include="VoiceXML\ParserVXML.cs" />
     <Compile Include="VoiceXML\VoiceXML.cs" />
@@ -124,11 +125,13 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="VoiceXML\BladInit.vxml" />
     <None Include="VoiceXML\HasloNieOk.vxml" />
     <None Include="VoiceXML\HasloOk.vxml" />
     <None Include="VoiceXML\HistoriaZamowien.vxml" />
     <None Include="VoiceXML\LoginNieOk.vxml" />
     <None Include="VoiceXML\LoginOk.vxml" />
+    <None Include="VoiceXML\Login_Haslo.vxml" />
     <None Include="VoiceXML\NieRozpoznano.vxml" />
     <None Include="VoiceXML\NoweZamowienie.vxml" />
     <None Include="VoiceXML\Powitanie.vxml" />

@@ -8,6 +8,7 @@ namespace Dialogowe.Model {
     {
         OczekiwanieNaRozpoznanieLubSynteze = 0,
         Powitanie,
+        ZapytanieOLogin_Haslo,
         ZapytanieOLogin,//pytamy usera o podanie loginu - imienia
         ZapytanieOHaslo,//pytamy usera o haslo
         BlednyLogin,//ponawiamy pytanie o login
@@ -19,6 +20,11 @@ namespace Dialogowe.Model {
         NoweZamowienie,
         HistoriaZamowien,
         OdczytHistorii,
+        WyborProcesora,
+        LiczbaSztuk,
+        KupZamowienie,
+        WyborDysku,
+        WyborRAMu,
 
         Pozegnanie = 99,
         PrzerwanoRozmowe = 100,

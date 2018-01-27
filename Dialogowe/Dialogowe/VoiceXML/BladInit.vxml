@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<vxml xmlns="http://www.w3.org/2001/vxml" version="2.1" xml:lang="pl-pl">
+  <form id="main">
+    <prompt>
+      Błędny login lub hasło
+    </prompt>
+    <grammar>
+    </grammar>
+  </form>
+</vxml>

@@ -19,7 +19,7 @@
                    Height="211" 
                    Width="497" FontSize="24"/>
 
-        <ListView Margin="10,101,28,215" Name="Issues" Background="#FF7AC3DE" ItemsSource="{Binding ListaZamowien}" Visibility="{Binding Historia}">
+        <ListView Margin="10,176,28,86" Name="Issues" Background="#FF7AC3DE" ItemsSource="{Binding ListaZamowien}" Visibility="{Binding Historia}">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}" >
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -60,14 +60,51 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="Wyślij" HorizontalAlignment="Left" Margin="390,500,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
-        <TextBox HorizontalAlignment="Left" Height="24" Margin="10,496,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="364" ToolTip="Wprowadź tekst wypowiedzi"/>
-        <TextBlock HorizontalAlignment="Left" 
-                   Margin="10,534,0,0" 
-                   TextWrapping="Wrap" 
-                   Text="{Binding RozpoznanyTekst}" 
-                   VerticalAlignment="Top" 
-                   Height="94" 
-                   Width="456"/>
+        <ListView Margin="10,176,28,87" Name="Issue2s" Background="#FF7AC3DE" ItemsSource="{Binding ListaSprzetu}" Visibility="{Binding SprzetVisible}">
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}" >
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Numer" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding numerNaLiscie}" FontSize="13" Foreground="Black" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Liczba Sztuk" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding iloscSztuk}" FontSize="13" Foreground="Black" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Cena" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding cena}" FontSize="13" Foreground="Black" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Opis" Width="400">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding text}" FontSize="13" Foreground="Black" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox Name="tekstBox" 
+            HorizontalAlignment="Left" Height="28" Margin="10,602,0,0" TextWrapping="Wrap"
+                 Text="{Binding Fraza}" VerticalAlignment="Top" Width="272"/>
+        <Button Content="Generowanie słowa" HorizontalAlignment="Left" Command="{Binding Prz}"
+                Margin="300,602,0,0" VerticalAlignment="Top" Width="114" Height="28"/>
+
     </Grid>
 </Window>

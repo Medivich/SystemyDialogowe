@@ -2,7 +2,8 @@
 <vxml xmlns="http://www.w3.org/2001/vxml" version="2.1" xml:lang="pl-pl">
   <form id="main">
     <prompt>
-      Błędny login lub hasło
+      Błędny login lub hasło.
+      Zapytam cie teraz o kolejne elementy osobno.
     </prompt>
     <grammar>
     </grammar>

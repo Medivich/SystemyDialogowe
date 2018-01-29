@@ -169,12 +169,12 @@ namespace Dialogowe {
             uzytkownik.imie = "Artur";
             uzytkownik.haslo = "2";
             uzytkownik.id = new CzytajZBazy().pobierzIDKlienta("Artur");
-            stanRozmowy = StanyRozmowy.WyborTrybu;
+            //stanRozmowy = StanyRozmowy.WyborProcesora;
         }
 
         private void Kontroler() {
             dodajDane();
-           // przeskoczPoczatek();
+            //przeskoczPoczatek();
 
             while ((int)stanRozmowy < (int)StanyRozmowy.Pozegnanie) {//rozmowa trwa az wejdziemy w stan zakonczenia jej
                 switch (stanRozmowy) {
@@ -365,6 +365,8 @@ namespace Dialogowe {
             //dodanie obsługi jak się nie udało rozpoznać usera
             rozpoznawanieMowy.SRE.SpeechRecognitionRejected += (object sender, SpeechRecognitionRejectedEventArgs e) => {
                 odpowiedzSystemu = parserXML.parsuj("NieRozpoznano.vxml");
+                Powiedz(odpowiedzSystemu.Prompt);
+                odpowiedzSystemu = parserXML.parsuj("BladInit.vxml");
                 Powiedz(odpowiedzSystemu.Prompt);
                 stanRozmowy = StanyRozmowy.ZapytanieOLogin;//ustawienie stanu rozmowy
             };
@@ -673,6 +675,9 @@ namespace Dialogowe {
             for (int i = 1; i <= ListaSprzetu.Count; i++)
                 ListaSprzetu[i - 1].numerNaLiscie = i;
 
+            
+            OnPropertyChanged("ListaSprzetu");
+
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {
 
@@ -738,6 +743,8 @@ namespace Dialogowe {
             for (int i = 1; i <= ListaSprzetu.Count; i++)
                 ListaSprzetu[i - 1].numerNaLiscie = i;
 
+            OnPropertyChanged("ListaSprzetu");
+
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {
                 
@@ -802,6 +809,8 @@ namespace Dialogowe {
 
             for (int i = 1; i <= ListaSprzetu.Count; i++)
                 ListaSprzetu[i - 1].numerNaLiscie = i;
+
+            OnPropertyChanged("ListaSprzetu");
 
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {

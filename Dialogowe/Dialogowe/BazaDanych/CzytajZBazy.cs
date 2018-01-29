@@ -28,7 +28,7 @@ namespace Dialogowe.BazaDanych
             Connect.Open();
             SqlDataReader dr = czytajnik.ExecuteReader();
 
-
+            int i = 1;
             while (dr.Read())
             {
                 Procesor s = new Procesor();
@@ -40,7 +40,8 @@ namespace Dialogowe.BazaDanych
                 s.producent = dr["Producent"].ToString();
                 s.liczbaRdzeni = Convert.ToInt32(dr["LiczbaRdzeni"]);
                 s.zdjecie = (byte[])dr["Zdjecie"];
-
+                s.text = new CzytajZBazy().pobierzProcesor(s.idSprzetu).PobierzOpis();
+                s.numerNaLiscie = i++;
                 lista.Add(s);
             }
             
@@ -61,7 +62,7 @@ namespace Dialogowe.BazaDanych
             Connect.Open();
             SqlDataReader dr = czytajnik.ExecuteReader();
 
-
+            int i = 1;
             while (dr.Read())
             {
                 PamiecRam s = new PamiecRam();
@@ -73,6 +74,8 @@ namespace Dialogowe.BazaDanych
                 s.pojemnosc = Convert.ToInt32(dr["Pojemnosc"]);
                 s.taktowanie = Convert.ToInt32(dr["Taktowanie"]);
                 s.zdjecie = (byte[])dr["Zdjecie"];
+                s.text = new CzytajZBazy().pobierzProcesor(s.idSprzetu).PobierzOpis();
+                s.numerNaLiscie = i++;
 
                 lista.Add(s);
             }
@@ -94,7 +97,7 @@ namespace Dialogowe.BazaDanych
             Connect.Open();
             SqlDataReader dr = czytajnik.ExecuteReader();
 
-
+            int i = 1;
             while (dr.Read())
             {
                 DyskTwardy s = new DyskTwardy();
@@ -105,6 +108,8 @@ namespace Dialogowe.BazaDanych
 
                 s.pojemnosc = Convert.ToInt32(dr["Pojemnosc"]);
                 s.zdjecie = (byte[])dr["Zdjecie"];
+                s.text = new CzytajZBazy().pobierzProcesor(s.idSprzetu).PobierzOpis();
+                s.numerNaLiscie = i++;
                 lista.Add(s);
             }
 

@@ -14,7 +14,7 @@ namespace Dialogowe.Kontrola
 
         public Przycisk(MainViewModel main)
         {
-            this.main = main ?? throw new ArgumentNullException("Login Command");
+            this.main = main;
         }
 
         public void Execute(object parameter)

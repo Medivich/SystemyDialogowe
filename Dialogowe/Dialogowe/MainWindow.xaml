@@ -119,7 +119,7 @@
             HorizontalAlignment="Left" Height="28" Margin="10,631,0,0" TextWrapping="Wrap"
                  Text="{Binding Fraza}" VerticalAlignment="Top" Width="475"/>
         <Button Content="Wymuś!" HorizontalAlignment="Left" Command="{Binding Prz}"
-                Margin="507,631,0,0" VerticalAlignment="Top" Width="180" Height="28" Background="#FF7AC3DE"/>
+                Margin="507,631,0,0" VerticalAlignment="Top" Width="180" Height="28" Background="#FF7AC3DE" IsDefault="True"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,604,0,0" FontSize="15"
                    TextWrapping="Wrap" Text="Wymuszanie słowa:" VerticalAlignment="Top" Height="27" Width="286"/>
         <TextBlock HorizontalAlignment="Left" Margin="-107,643,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>

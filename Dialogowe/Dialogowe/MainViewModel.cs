@@ -281,6 +281,9 @@ namespace Dialogowe {
 
         private bool login = false;
         private bool haslo = false;
+        private string hasloText = null;
+        private string loginText = null;
+        private int odczyt = 0;
 
         private void PobierzWszystko()
         {
@@ -319,15 +322,32 @@ namespace Dialogowe {
                         login = true;
                     else if (string.Compare(e.Result.Text, "Hasło") == 0)
                         haslo = true;
-                    else if (login && !haslo)
+                    else if (login)
                         foreach (Uzytkownik user in userzy)
                         {
                             if (string.Compare(user.imie, imie) == 0)
+                            {
                                 uzytkownik = user;
+                                loginText = imie;
+                            }
+                            login = false;
                         }
                     else if(haslo)
                     {
-                        if (string.Compare(uzytkownik.haslo, e.Result.Text) == 0)
+                        foreach (Uzytkownik user in userzy)
+                        {
+                            if (string.Compare(user.haslo, imie) == 0)
+                            {
+                                uzytkownik = user;
+                                hasloText = imie;
+                            }
+                            haslo = false;
+                        } 
+                    }
+
+                    if(hasloText != null && loginText != null)
+                    {
+                        if (string.Compare(uzytkownik.imie, loginText) == 0 && string.Compare(uzytkownik.haslo, hasloText) == 0)
                         {
                             Powiedz(odpowiedzSystemu.Prompt);
                             stanRozmowy = StanyRozmowy.WyborTrybu;

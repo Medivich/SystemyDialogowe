@@ -19,20 +19,21 @@ namespace Dialogowe.Kontrola
 
         public void Execute(object parameter)
         {
-            // main.rozpoznawanieMowy.SRE.SpeechRecognized += SRE_SpeechRecognized;
-            main.stanRozmowy = StanyRozmowy.WyborTrybu;
-            /////////////////////////////////////////////TUTAJ MOŻNA WYWOŁAĆ EVENT
-            Debug.WriteLine(main.Fraza);
-        }
-
-        private void SRE_SpeechRecognized(object sender, Microsoft.Speech.Recognition.SpeechRecognizedEventArgs e)
-        {
-            ;
+            try
+            {
+                main.zatrzymaj();
+                main.rozpoznawanieMowy.SRE.RecognizeAsyncStop();
+                main.rozpoznawanieMowy.SRE.EmulateRecognizeAsync(main.Fraza);
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine("Jeszce nie");
+            }
         }
 
         public bool CanExecute(object parameter)
         {
-            return true;
+             return true;
         }
 
         public virtual event EventHandler CanExecuteChanged

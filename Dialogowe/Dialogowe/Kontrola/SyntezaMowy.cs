@@ -1,6 +1,7 @@
 ﻿using Microsoft.Speech.Synthesis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -27,8 +28,20 @@ namespace Dialogowe.Kontrola
 
         SpeechSynthesizer synth;
         public void Mow(string text)
-        { 
-            synth.Speak(text);
+        {
+            try
+            {
+                synth.Speak(text);
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine("Koniec gadania");
+            }
+        }
+
+        public void zatrzymaj()
+        {
+            synth.SpeakAsyncCancelAll();
         }
     }
 }

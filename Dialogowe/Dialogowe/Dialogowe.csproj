@@ -75,6 +75,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BazaDanych\AktualizacjaBazyDanych.cs" />
+    <Compile Include="BazaDanych\DodawanieZdjec.cs" />
     <Compile Include="Kontrola\Przycisk.cs" />
     <Compile Include="Model\Zamowienie.cs" />
     <Compile Include="VoiceXML\ParserVXML.cs" />
@@ -167,6 +169,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <Resource Include="Obrazy\ram1.png" />
+    <Resource Include="Obrazy\ram2.png" />
+    <Resource Include="Obrazy\ram3.png" />
+    <Resource Include="Obrazy\dysk4.png" />
+    <Resource Include="Obrazy\dysk1.png" />
+    <Resource Include="Obrazy\dysk2.png" />
+    <Resource Include="Obrazy\dysk3.png" />
+    <Resource Include="Obrazy\chin.png" />
+    <Resource Include="Obrazy\AMD1.png" />
+    <Resource Include="Obrazy\amd2.png" />
+    <Resource Include="Obrazy\I5.png" />
+    <Resource Include="Obrazy\I3.png" />
+    <Resource Include="Obrazy\i7.png" />
+    <Resource Include="Obrazy\sklep.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

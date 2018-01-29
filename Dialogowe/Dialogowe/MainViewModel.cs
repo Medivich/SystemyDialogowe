@@ -36,6 +36,7 @@ namespace Dialogowe {
 
 
         public StanyRozmowy stanRozmowy = StanyRozmowy.Powitanie;//enumeracja możliwych stanów rozmowy
+
         #region Referencje do singletonow
         public RozpoznawanieMowy rozpoznawanieMowy = RozpoznawanieMowy.obiekt;
         private SyntezaMowy synteza = SyntezaMowy.obiekt;
@@ -83,27 +84,25 @@ namespace Dialogowe {
         private void dodajDane() {
             obiektZapisuDoBazy = new DodajDoBazy();
 
-            obiektZapisuDoBazy.dodajProcesor(2, "Zhaoxin", 800, 8);
-            obiektZapisuDoBazy.dodajProcesor(1, "Intel", 1000, 2);
-            obiektZapisuDoBazy.dodajProcesor(1, "Intel", 500, 7);
-            obiektZapisuDoBazy.dodajProcesor(5, "AMD", 1000, 5);
-            obiektZapisuDoBazy.dodajProcesor(6, "AMD", 1300, 5);
-            obiektZapisuDoBazy.dodajProcesor(6, "Intel", 3000, 2);
-            obiektZapisuDoBazy.dodajProcesor(8, "AMD", 2500, 5);
-            obiektZapisuDoBazy.dodajProcesor(8, "Intel", 4000, 9);
-            obiektZapisuDoBazy.dodajProcesor(1, "Zhaoxin", 580, 5);
-            obiektZapisuDoBazy.dodajProcesor(2, "Zhaoxin", 850, 4);
+            obiektZapisuDoBazy.dodajProcesor(1, "Intel", 1000, 2, new DodawanieZdjec().dodajZdjecie("i3.png"));
+            obiektZapisuDoBazy.dodajProcesor(5, "AMD", 1000, 5, new DodawanieZdjec().dodajZdjecie("AMD1.png"));
+            obiektZapisuDoBazy.dodajProcesor(6, "AMD", 1300, 5, new DodawanieZdjec().dodajZdjecie("AMD2.png"));
+            obiektZapisuDoBazy.dodajProcesor(6, "Intel", 3000, 2, new DodawanieZdjec().dodajZdjecie("i5.png"));
+            obiektZapisuDoBazy.dodajProcesor(8, "AMD", 2500, 5, new DodawanieZdjec().dodajZdjecie("AMD2.png"));
+            obiektZapisuDoBazy.dodajProcesor(8, "Intel", 4000, 9, new DodawanieZdjec().dodajZdjecie("i7.png"));
+            obiektZapisuDoBazy.dodajProcesor(2, "Zhaoxin", 850, 4, new DodawanieZdjec().dodajZdjecie("chin.png"));
 
-            obiektZapisuDoBazy.dodajDysk(500, 300, 5);
-            obiektZapisuDoBazy.dodajDysk(1500, 700, 7);
-            obiektZapisuDoBazy.dodajDysk(600, 350, 5);
-            obiektZapisuDoBazy.dodajDysk(700, 500, 2);
-            obiektZapisuDoBazy.dodajDysk(200, 50, 3);
+            obiektZapisuDoBazy.dodajDysk(500, 300, 5, new DodawanieZdjec().dodajZdjecie("dysk1.png"));
+            obiektZapisuDoBazy.dodajDysk(1500, 700, 7, new DodawanieZdjec().dodajZdjecie("dysk2.png"));
+            obiektZapisuDoBazy.dodajDysk(600, 350, 5, new DodawanieZdjec().dodajZdjecie("dysk3.png"));
+            obiektZapisuDoBazy.dodajDysk(700, 500, 2, new DodawanieZdjec().dodajZdjecie("dysk4.png"));
+            obiektZapisuDoBazy.dodajDysk(200, 50, 3, new DodawanieZdjec().dodajZdjecie("dysk4.png"));
 
-            obiektZapisuDoBazy.dodajRAM(1.2F, 4, 200, 5);
-            obiektZapisuDoBazy.dodajRAM(1.066F, 2, 50, 5);
-            obiektZapisuDoBazy.dodajRAM(2.0F, 8, 300, 2);
-            obiektZapisuDoBazy.dodajRAM(2.0F, 4, 500, 3);
+            obiektZapisuDoBazy.dodajRAM(1.2F, 4, 200, 5, new DodawanieZdjec().dodajZdjecie("ram1.png"));
+            obiektZapisuDoBazy.dodajRAM(1.066F, 2, 50, 5, new DodawanieZdjec().dodajZdjecie("ram1.png"));
+            obiektZapisuDoBazy.dodajRAM(2.0F, 8, 300, 2, new DodawanieZdjec().dodajZdjecie("ram2.png"));
+            obiektZapisuDoBazy.dodajRAM(2.0F, 4, 500, 3, new DodawanieZdjec().dodajZdjecie("ram3.png"));
+            obiektZapisuDoBazy.dodajRAM(3.0F, 2, 900, 7, new DodawanieZdjec().dodajZdjecie("ram3.png"));
 
             obiektZapisuDoBazy.dodajUzytkownika("Konrad", "1");
             obiektZapisuDoBazy.dodajUzytkownika("Artur", "2");
@@ -154,6 +153,8 @@ namespace Dialogowe {
             obiektZapisuDoBazy.dodajZamowienie(lista, new CzytajZBazy().pobierzIDKlienta("Artur"));
         }
 
+
+
         //Jakbyśmy chcieli zacząć od danego miejsca
         private void przeskoczPoczatek()
         {
@@ -168,12 +169,12 @@ namespace Dialogowe {
             uzytkownik.imie = "Artur";
             uzytkownik.haslo = "2";
             uzytkownik.id = new CzytajZBazy().pobierzIDKlienta("Artur");
-            stanRozmowy = StanyRozmowy.Powitanie;
+            stanRozmowy = StanyRozmowy.WyborTrybu;
         }
 
         private void Kontroler() {
             dodajDane();
-            przeskoczPoczatek();
+           // przeskoczPoczatek();
 
             while ((int)stanRozmowy < (int)StanyRozmowy.Pozegnanie) {//rozmowa trwa az wejdziemy w stan zakonczenia jej
                 switch (stanRozmowy) {
@@ -216,6 +217,7 @@ namespace Dialogowe {
                     #endregion
 
                     case StanyRozmowy.WyborTrybu:
+                        Debug.WriteLine("STAN - WYBÓR TRYBU");
                         WyborTrybu((int) StanyRozmowy.WyborTrybu);
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
@@ -244,16 +246,12 @@ namespace Dialogowe {
                         WyborLiczbySztuk((int)StanyRozmowy.LiczbaSztuk);
                         stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
                         break;
-                    case StanyRozmowy.KupZamowienie:
-                        kupnoZamowienia((int)StanyRozmowy.KupZamowienie);
-                        stanRozmowy = StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze;
-                        break;
                     #endregion
 
 
 
                     case StanyRozmowy.OczekiwanieNaRozpoznanieLubSynteze://nic nie robimy jak czekamy
-                        Thread.Sleep(10);
+                        Thread.Sleep(100);
                         break;
                     default:
                         break;
@@ -477,7 +475,6 @@ namespace Dialogowe {
 
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {
-                Debug.WriteLine("Wybor trybu " + e.Result.Text);
                 if (string.Compare(e.Result.Text, "Wyjdź") == 0)
                 {
                     stanRozmowy = StanyRozmowy.Pozegnanie;
@@ -570,7 +567,8 @@ namespace Dialogowe {
                 stanRozmowy = (StanyRozmowy)ja;
             };
 
-            Powiedz("Obecnie posiadasz " + new CzytajZBazy().pobierzLiczbeZamowien(uzytkownik.imie) + ". Ktore zamowienie cie interesuje");
+            Powiedz("Obecnie posiadasz " + new CzytajZBazy().pobierzLiczbeZamowien(uzytkownik.imie) + " zamówienia. " +
+                "Które cię interesuje");
 
             rozpoznawanieMowy.rozpoznajSlowoZeSlownika();//rozpoznaj slowo
         }
@@ -582,7 +580,7 @@ namespace Dialogowe {
             rozpoznawanieMowy.czyscSlownik();//przed rozpoznawaniem czyscimy slownik
             rozpoznawanieMowy.dodajSlowa(new string[] { "Wyjdź", "Powtórz" });
             rozpoznawanieMowy.dodajSlowa(new string[] { "Procesor", "Dysk Twardy", "Pamięć RAM", "Koniec" });
-           
+            Historia = Visibility.Visible;
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {
 
@@ -598,8 +596,11 @@ namespace Dialogowe {
                 {
                     if (string.Compare("Koniec", e.Result.Text) == 0)
                     {
-                        Powiedz("Wybrales zakonczenie zakupów");
-                        stanRozmowy = StanyRozmowy.KupZamowienie;
+                        Powiedz("Dziękujemy, towary niedługo zostaną wydane");
+                        new DodajDoBazy().dodajZamowienie(ListaZamowien, new CzytajZBazy().pobierzIDKlienta(uzytkownik.imie));
+                        new AktualizacjaBazyDanych().aktualizujDane(ListaZamowien);
+                        Historia = Visibility.Hidden;
+                        stanRozmowy = StanyRozmowy.WyborTrybu;
                     }
                     else if (string.Compare(e.Result.Text, "Procesor") == 0)
                     {
@@ -626,8 +627,8 @@ namespace Dialogowe {
                 stanRozmowy = (StanyRozmowy)ja;
             };
 
-            Powiedz("Posiadasz w koszyku " + listaZamowien.Count + " zamowien. Chcialbys zamowić dysk twardy," +
-                " procesor lub Pamięć ram? Jeśli byś chciał zakończyć kupowanie powiedz koniec");
+            Powiedz("Posiadasz w koszyku " + listaZamowien.Count + " zamówień. Chciałbyś zamowić dysk twardy," +
+                " procesor czy Pamięć ram? Jeśli byś chciał zakończyć kupowanie powiedz koniec");
 
             rozpoznawanieMowy.rozpoznajSlowoZeSlownika();//rozpoznaj slowo
         }
@@ -668,7 +669,7 @@ namespace Dialogowe {
                     for (int i = 1; i <= ListaSprzetu.Count; i++)
                         if (string.Compare(i.ToString(), e.Result.Text) == 0)
                         {
-                            Powiedz("Wybrales procesor numer " + i);
+                            Powiedz("Wybrałeś procesor numer " + i);
                             //Dispatcher
                             PozycjaZamowienia poz = new PozycjaZamowienia
                             {
@@ -719,7 +720,7 @@ namespace Dialogowe {
 
             //dodanie obsługi udanego rozpoznania
             rozpoznawanieMowy.SRE.SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) => {
-
+                
                 if (string.Compare(e.Result.Text, "Wyjdź") == 0)
                 {
                     stanRozmowy = StanyRozmowy.Pozegnanie;
@@ -733,7 +734,7 @@ namespace Dialogowe {
                     for (int i = 1; i <= ListaSprzetu.Count; i++)
                         if (string.Compare(i.ToString(), e.Result.Text) == 0)
                         {
-                            Powiedz("Wybrales pamięć ram numer " + i);
+                            Powiedz("Wybrałeś pamięć ram numer " + i);
                             //Dispatcher
                             PozycjaZamowienia poz = new PozycjaZamowienia
                             {
@@ -798,7 +799,7 @@ namespace Dialogowe {
                     for (int i = 1; i <= ListaSprzetu.Count; i++)
                         if (string.Compare(i.ToString(), e.Result.Text) == 0)
                         {
-                            Powiedz("Wybrales dysk numer " + i);
+                            Powiedz("Wybrałeś dysk numer " + i);
                             //Dispatcher
                             PozycjaZamowienia poz = new PozycjaZamowienia
                             {
@@ -832,7 +833,7 @@ namespace Dialogowe {
             rozpoznawanieMowy.czyscSlownik();//przed rozpoznawaniem czyscimy slownik
             rozpoznawanieMowy.dodajSlowa(new string[] { "Wyjdź", "Powtórz" });
 
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= new CzytajZBazy().pobierzSprzet(wybranySprzet.sprzet.idSprzetu).iloscSztuk; i++)
                 rozpoznawanieMowy.dodajSlowa(i + ""); //czyta jedno zamiast 1, lel
 
             //dodanie obsługi udanego rozpoznania
@@ -851,10 +852,10 @@ namespace Dialogowe {
                     for (int i = 1; i <= ListaSprzetu.Count; i++)
                         if (string.Compare(i.ToString(), e.Result.Text) == 0)
                         {
+                            wybranySprzet.sprzet.iloscSztuk = i;
                             wybranySprzet.liczba = i;
                             Application.Current.Dispatcher.Invoke(new Action(() => ListaZamowien.Add(wybranySprzet)));
                             Application.Current.Dispatcher.Invoke(new Action(() => stanRozmowy = StanyRozmowy.NoweZamowienie));
-                            Historia = Visibility.Visible;
                         }
                 }
             };
@@ -866,19 +867,9 @@ namespace Dialogowe {
                 stanRozmowy = (StanyRozmowy)ja;
             };
 
-            Powiedz("Ile chciałbyś sztuk sprzętu? Podaj liczbę z zakresu 1 - 10");
+            Powiedz("Ile chciałbyś sztuk sprzętu? Podaj liczbę z zakresu 1 - " + new CzytajZBazy().pobierzSprzet(wybranySprzet.sprzet.idSprzetu).iloscSztuk);
 
             rozpoznawanieMowy.rozpoznajSlowoZeSlownika();//rozpoznaj slowo
-        }
-
-        void kupnoZamowienia(int ja)
-        {
-            Powiedz("Dziękujemy, towary niedługo wyjadą z magazynu");
-            Historia = Visibility.Hidden;
-
-            new DodajDoBazy().dodajZamowienie(ListaZamowien, new CzytajZBazy().pobierzIDKlienta(uzytkownik.imie));
-            Debug.WriteLine("Dodalem do bazy zamowienie");
-            stanRozmowy = StanyRozmowy.WyborTrybu;
         }
 
         #endregion
@@ -886,6 +877,11 @@ namespace Dialogowe {
         private void Powiedz(string s) {
             TekstWiadomosci = s;
             synteza.Mow(s);
+        }
+
+        public void zatrzymaj()
+        {
+            synteza.zatrzymaj();
         }
 
         // Odświeżanie kontrolek

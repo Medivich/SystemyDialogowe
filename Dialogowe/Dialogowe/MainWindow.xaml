@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Dialogowe"
                 xmlns:vm="clr-namespace:Dialogowe"
         mc:Ignorable="d"
+        Icon="Obrazy/sklep.png"
         Title="Automatyczny sklep komputerowy 'Neutron'" Height="700" Width="705">
     <Window.DataContext>
         <vm:MainViewModel />
@@ -14,12 +15,12 @@
         <TextBlock HorizontalAlignment="Left" 
                    Margin="10,10,0,0" 
                    TextWrapping="Wrap" 
-                   Text="{Binding TekstWiadomosci}" 
+                   Text="{Binding TekstWiadomosci, StringFormat = 'Podpowiedź: {0}'}" 
                    VerticalAlignment="Top" 
                    Height="211" 
-                   Width="497" FontSize="24"/>
+                   Width="677" FontSize="20"/>
 
-        <ListView Margin="10,176,28,86" Name="Issues" Background="#FF7AC3DE" ItemsSource="{Binding ListaZamowien}" Visibility="{Binding Historia}">
+        <ListView Margin="10,135,10,87" Name="Issues" Background="#FF7AC3DE" ItemsSource="{Binding ListaZamowien}" Visibility="{Binding Historia}">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}" >
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -28,6 +29,13 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="Zdjęcie" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding sprzet.zdjecie}" MaxHeight="130" MaxWidth="130" ></Image>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Liczba Sztuk" Width="70">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -49,7 +57,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Opis" Width="400">
+                    <GridViewColumn Header="Opis" Width="300">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding sprzet.text}" FontSize="13" Foreground="Black" />
@@ -60,7 +68,7 @@
             </ListView.View>
         </ListView>
 
-        <ListView Margin="10,176,28,87" Name="Issue2s" Background="#FF7AC3DE" ItemsSource="{Binding ListaSprzetu}" Visibility="{Binding SprzetVisible}">
+        <ListView Margin="10,135,10,87" Name="Issue2s" Background="#FF7AC3DE" ItemsSource="{Binding ListaSprzetu}" Visibility="{Binding SprzetVisible}">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}" >
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -69,6 +77,13 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="Zdjęcie" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding zdjecie}" MaxHeight="130" MaxWidth="130" ></Image>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Numer" Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -90,7 +105,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Opis" Width="400">
+                    <GridViewColumn Header="Opis" Width="300">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding text}" FontSize="13" Foreground="Black" />
@@ -100,11 +115,14 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox Name="tekstBox" 
-            HorizontalAlignment="Left" Height="28" Margin="10,602,0,0" TextWrapping="Wrap"
-                 Text="{Binding Fraza}" VerticalAlignment="Top" Width="272"/>
-        <Button Content="Generowanie słowa" HorizontalAlignment="Left" Command="{Binding Prz}"
-                Margin="300,602,0,0" VerticalAlignment="Top" Width="114" Height="28"/>
+        <TextBox Name="tekstBox" Background="#FF7AC3DE"
+            HorizontalAlignment="Left" Height="28" Margin="10,631,0,0" TextWrapping="Wrap"
+                 Text="{Binding Fraza}" VerticalAlignment="Top" Width="475"/>
+        <Button Content="Wymuś!" HorizontalAlignment="Left" Command="{Binding Prz}"
+                Margin="507,631,0,0" VerticalAlignment="Top" Width="180" Height="28" Background="#FF7AC3DE"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,604,0,0" FontSize="15"
+                   TextWrapping="Wrap" Text="Wymuszanie słowa:" VerticalAlignment="Top" Height="27" Width="286"/>
+        <TextBlock HorizontalAlignment="Left" Margin="-107,643,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

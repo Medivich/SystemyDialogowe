@@ -69,7 +69,14 @@ namespace Dialogowe.Kontrola
             Grammar gramSRE = new Grammar(gramBuild);
 
             SRE.LoadGrammar(gramSRE);
-            SRE.RecognizeAsync(RecognizeMode.Single);//podobno ta metoda rozpoznaje jedno slowo
+            try
+            {
+                SRE.RecognizeAsync(RecognizeMode.Single);//podobno ta metoda rozpoznaje jedno slowo
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Exc rozpoznajSlowoZeSlownika");
+            }
         }
     }
 }

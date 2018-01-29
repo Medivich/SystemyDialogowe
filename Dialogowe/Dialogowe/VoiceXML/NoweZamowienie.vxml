@@ -2,7 +2,7 @@
 <vxml xmlns="http://www.w3.org/2001/vxml" version="2.1" xml:lang="pl-pl">
   <form id="main">
     <prompt>
-      Wybrales nowe
+      Wybrałeś nowe
     </prompt>
     <grammar>
     </grammar>

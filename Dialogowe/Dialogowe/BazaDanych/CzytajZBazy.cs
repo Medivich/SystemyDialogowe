@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using Dialogowe.Model;
 using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace Dialogowe.BazaDanych
 {
@@ -36,6 +39,7 @@ namespace Dialogowe.BazaDanych
 
                 s.producent = dr["Producent"].ToString();
                 s.liczbaRdzeni = Convert.ToInt32(dr["LiczbaRdzeni"]);
+                s.zdjecie = (byte[])dr["Zdjecie"];
 
                 lista.Add(s);
             }
@@ -68,6 +72,7 @@ namespace Dialogowe.BazaDanych
 
                 s.pojemnosc = Convert.ToInt32(dr["Pojemnosc"]);
                 s.taktowanie = Convert.ToInt32(dr["Taktowanie"]);
+                s.zdjecie = (byte[])dr["Zdjecie"];
 
                 lista.Add(s);
             }
@@ -99,7 +104,7 @@ namespace Dialogowe.BazaDanych
                 s.idPodzespolu = Convert.ToInt32(dr["ID"]);
 
                 s.pojemnosc = Convert.ToInt32(dr["Pojemnosc"]);
-
+                s.zdjecie = (byte[])dr["Zdjecie"];
                 lista.Add(s);
             }
 
@@ -221,22 +226,24 @@ namespace Dialogowe.BazaDanych
                     lista[lista.Count - 1].typ = PozycjaZamowienia.typSprzetu.dyskTwardy;
                     lista[lista.Count - 1].sprzet = pobierzDyskTwardy(Convert.ToInt32(dr["IDSprzetu"]));
                     lista[lista.Count - 1].sprzet.text = pobierzDyskTwardy(Convert.ToInt32(dr["IDSprzetu"])).PobierzOpis();
-                    lista[lista.Count - 1].sprzet.cena = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).cena;
                 }
                 else if (czyProcesor(Convert.ToInt32(dr["IDSprzetu"])))
                 {
                     lista[lista.Count - 1].typ = PozycjaZamowienia.typSprzetu.procesor;
                     lista[lista.Count - 1].sprzet = pobierzProcesor(Convert.ToInt32(dr["IDSprzetu"]));
                     lista[lista.Count - 1].sprzet.text = pobierzProcesor(Convert.ToInt32(dr["IDSprzetu"])).PobierzOpis();
-                    lista[lista.Count - 1].sprzet.cena = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).cena;
                 }
                 else if (czyRAM(Convert.ToInt32(dr["IDSprzetu"])))
                 {
                     lista[lista.Count - 1].typ = PozycjaZamowienia.typSprzetu.RAM;
                     lista[lista.Count - 1].sprzet = pobierzPamiecRAM(Convert.ToInt32(dr["IDSprzetu"]));
                     lista[lista.Count - 1].sprzet.text = pobierzPamiecRAM(Convert.ToInt32(dr["IDSprzetu"])).PobierzOpis();
-                    lista[lista.Count - 1].sprzet.cena = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).cena;
+
                 }
+
+                lista[lista.Count - 1].sprzet.idSprzetu = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).idSprzetu;
+                lista[lista.Count - 1].sprzet.cena = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).cena;
+                lista[lista.Count - 1].sprzet.zdjecie = pobierzSprzet(Convert.ToInt32(dr["IDSprzetu"])).zdjecie;
             }
         
             Connect.Close();
@@ -259,6 +266,7 @@ namespace Dialogowe.BazaDanych
             {
                 cena = Convert.ToInt32(dr["Cena"]),
                 iloscSztuk = Convert.ToInt32(dr["Magazyn"]),
+                zdjecie = (byte[]) dr["Zdjecie"],
                 idSprzetu = IDsprzet
             };
 

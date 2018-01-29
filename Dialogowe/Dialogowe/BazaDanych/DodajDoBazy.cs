@@ -11,9 +11,9 @@ namespace Dialogowe.BazaDanych
     class DodajDoBazy
     {
         //Dodaje procek do bazy
-        public void dodajProcesor(int LiczbaRdzeni, string Producent, int cena, int iloscSztuk)
+        public void dodajProcesor(int LiczbaRdzeni, string Producent, int cena, int iloscSztuk, byte[] Image)
         {
-            int idSprzetu = dodajSprzet(cena, iloscSztuk);
+            int idSprzetu = dodajSprzet(cena, iloscSztuk, Image);
 
             SqlConnection Connect = new SqlConnection(Polaczenie.connString);
             SqlCommand Command = new SqlCommand(@"Insert Into Procesor(Producent, LiczbaRdzeni, FK_IDSprzet) 
@@ -27,9 +27,9 @@ namespace Dialogowe.BazaDanych
             Connect.Close();
         }
 
-        public void dodajRAM(float taktowanie, int pojemnosc, int cena, int iloscSztuk)
+        public void dodajRAM(float taktowanie, int pojemnosc, int cena, int iloscSztuk, byte[] Image)
         {
-            int idSprzetu = dodajSprzet(cena, iloscSztuk);
+            int idSprzetu = dodajSprzet(cena, iloscSztuk, Image);
 
             SqlConnection Connect = new SqlConnection(Polaczenie.connString);
             SqlCommand Command = new SqlCommand(@"Insert Into PamiecRam(Taktowanie, Pojemnosc, FK_IDSprzet) 
@@ -43,9 +43,9 @@ namespace Dialogowe.BazaDanych
             Connect.Close();
         }
 
-        public void dodajDysk(int pojemnosc, int cena, int iloscSztuk)
+        public void dodajDysk(int pojemnosc, int cena, int iloscSztuk, byte[] Image)
         {
-            int idSprzetu = dodajSprzet(cena, iloscSztuk);
+            int idSprzetu = dodajSprzet(cena, iloscSztuk, Image);
 
             SqlConnection Connect = new SqlConnection(Polaczenie.connString);
             SqlCommand Command = new SqlCommand(@"Insert Into DyskTwardy(Pojemnosc, FK_IDSprzet) 
@@ -111,14 +111,15 @@ namespace Dialogowe.BazaDanych
         }
 
         //zwraca id sprzetu
-        private int dodajSprzet(int Cena, int Magazyn)
+        private int dodajSprzet(int Cena, int Magazyn, byte[] Image)
         {
             SqlConnection Connect = new SqlConnection(Polaczenie.connString);
-            SqlCommand Command = new SqlCommand(@"Insert Into Sprzet(Cena, Magazyn) output INSERTED.IDSprzet
-                                                Values(@Cena, @Magazyn)", Connect);
+            SqlCommand Command = new SqlCommand(@"Insert Into Sprzet(Cena, Magazyn, Zdjecie) output INSERTED.IDSprzet
+                                                Values(@Cena, @Magazyn, @Zdjecie)", Connect);
 
             Command.Parameters.AddWithValue("@Cena", Cena);
             Command.Parameters.AddWithValue("@Magazyn", Magazyn);
+            Command.Parameters.AddWithValue("@Zdjecie", Image);
 
             Connect.Open();
             int idSprzetu = (int)Command.ExecuteScalar();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows.Media.Imaging;
 
 namespace Dialogowe.Model
 {
@@ -14,6 +15,7 @@ namespace Dialogowe.Model
         public int idPodzespolu { get; set; }
         public string text { get; set; }
         public int numerNaLiscie { get; set; }
+        public byte[] zdjecie { get; set; }
 
         public virtual void Czytaj()
         {
